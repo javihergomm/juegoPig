@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                     jugadores[turno - 1].puntosRonda += 6
                 }
 
-                marcadores(turno, numJugadores, numRondas, jugadores, partidaFinalizada)
+                marcadores(turno, numJugadores, numRondas, jugadores)
 
             }
 
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             botonPlantarse.setOnClickListener {
                 jugadores[turno - 1].puntos += jugadores[turno - 1].puntosRonda
                 turno++
-                marcadores(turno, numJugadores, numRondas, jugadores, partidaFinalizada)
+                marcadores(turno, numJugadores, numRondas, jugadores)
 
             }
 
