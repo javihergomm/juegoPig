@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun empezarPartida(
         jugadores: ArrayList<Jugador>,
         numJugadores: Int
@@ -109,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         var resultDado: Int = 0
         var numRondas: Int = 1
         var turno: Int = 1
-        var partidaFinalizada: Boolean = false
 
 
             botonDado.setOnClickListener {
@@ -147,7 +147,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 marcadores(turno, numJugadores, numRondas, jugadores)
-
+                if (turno > numJugadores) {
+                    turno = 1
+                    numRondas++
+                }
             }
 
 
@@ -155,6 +158,10 @@ class MainActivity : AppCompatActivity() {
                 jugadores[turno - 1].puntos += jugadores[turno - 1].puntosRonda
                 turno++
                 marcadores(turno, numJugadores, numRondas, jugadores)
+                if (turno > numJugadores) {
+                    turno = 1
+                    numRondas++
+                }
 
             }
 
@@ -179,6 +186,7 @@ class MainActivity : AppCompatActivity() {
         turnoJugador.setText("Turno del jugador " + turno1)
 
         if (numRondas1 > 5) {
+
             cara6.visibility = View.GONE
             cara5.visibility = View.GONE
             cara4.visibility = View.GONE
@@ -192,10 +200,24 @@ class MainActivity : AppCompatActivity() {
             turnoJugador.visibility = View.GONE
             botonDado.visibility = View.GONE
             textoGanador.visibility = View.VISIBLE
+            textoPuntosJ1.setText("Jugador 1: " + jugadores[0].puntos + " puntos")
+            textoPuntosJ2.setText("Jugador 2: " + jugadores[1].puntos + " puntos")
+
             textoPuntosJ1.visibility = View.VISIBLE
             textoPuntosJ2.visibility = View.VISIBLE
-            textoPuntosJ3.visibility = View.VISIBLE
-            textoPuntosJ4.visibility = View.VISIBLE
+            if (numJugadores == 3){
+                textoPuntosJ3.setText("Jugador 3: " + jugadores[2].puntos + " puntos")
+                textoPuntosJ3.visibility = View.VISIBLE
+            }else if (numJugadores == 4){
+                textoPuntosJ3.setText("Jugador 3: " + jugadores[2].puntos + " puntos")
+                textoPuntosJ4.setText("Jugador 4: " + jugadores[3].puntos + " puntos")
+
+                textoPuntosJ3.visibility = View.VISIBLE
+                textoPuntosJ4.visibility = View.VISIBLE
+            }
+
+
+            botonPlantarse.visibility =View.GONE
         }
     }
 
