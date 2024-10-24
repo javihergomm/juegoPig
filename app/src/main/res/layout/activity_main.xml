@@ -23,41 +23,17 @@
         app:layout_constraintVertical_bias="0.144" />
 
     <Button
-        android:id="@+id/boton2Jugadores"
+        android:id="@+id/IniciarBoton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 jugadores"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/boton4Jugadores"
-        app:layout_constraintEnd_toStartOf="@+id/boton3Jugadores"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoCuantos"
-        app:layout_constraintVertical_bias="0.591" />
-
-    <Button
-        android:id="@+id/boton3Jugadores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3 jugadoes"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/boton4Jugadores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.781"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoCuantos"
-        app:layout_constraintVertical_bias="0.591" />
-
-    <Button
-        android:id="@+id/boton4Jugadores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="4 jugadores"
+        android:layout_marginTop="304dp"
+        android:text="Iniciar Partida"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoCuantos"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintVertical_bias="0.09" />
 
     <TextView
         android:id="@+id/numRonda"
@@ -88,7 +64,7 @@
         app:layout_constraintVertical_bias="0.061" />
 
     <ImageView
-        android:id="@+id/cara6"
+        android:id="@+id/dado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -97,62 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cara6" />
-
-    <ImageView
-        android:id="@+id/cara1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cara1" />
-
-    <ImageView
-        android:id="@+id/cara2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cara2" />
-
-    <ImageView
-        android:id="@+id/cara3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cara3" />
-
-    <ImageView
-        android:id="@+id/cara4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cara4" />
-
-    <ImageView
-        android:id="@+id/cara5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.503"
-        app:srcCompat="@drawable/cara5" />
 
     <TextView
         android:id="@+id/textoPuntuacion"
@@ -280,5 +200,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.751" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="209dp"
+        android:layout_height="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.413" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,37 +2,21 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.databinding.ActivityMainBinding
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-    lateinit var boton2Jug: Button
-    lateinit var boton3Jug: Button
-    lateinit var boton4Jug: Button
-    lateinit var textoCuantos: TextView
-    lateinit var numRonda: TextView
-    lateinit var turnoJugador: TextView
-    lateinit var cara1: ImageView
-    lateinit var cara2: ImageView
-    lateinit var cara3: ImageView
-    lateinit var cara4: ImageView
-    lateinit var cara5: ImageView
-    lateinit var cara6: ImageView
-    lateinit var botonDado: Button
-    lateinit var textoPuntuacion: TextView
-    lateinit var puntuacion: TextView
-    lateinit var textoGanador: TextView
-    lateinit var textoPuntosJ1: TextView
-    lateinit var textoPuntosJ2: TextView
-    lateinit var textoPuntosJ3: TextView
-    lateinit var textoPuntosJ4: TextView
-    lateinit var botonPlantarse: Button
-
+    private lateinit var binding: ActivityMainBinding
 
 
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n")
@@ -40,58 +24,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        // Inicializar el binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        boton2Jug = findViewById(R.id.boton2Jugadores)
-        boton3Jug = findViewById(R.id.boton3Jugadores)
-        boton4Jug = findViewById(R.id.boton4Jugadores)
-        textoCuantos = findViewById(R.id.textoCuantos)
-        numRonda = findViewById(R.id.numRonda)
-        turnoJugador = findViewById(R.id.turnoJugador)
-        cara1 = findViewById(R.id.cara1)
-        cara2 = findViewById(R.id.cara2)
-        cara3 = findViewById(R.id.cara3)
-        cara4 = findViewById(R.id.cara4)
-        cara5 = findViewById(R.id.cara5)
-        cara6 = findViewById(R.id.cara6)
-        botonDado = findViewById(R.id.botonDado)
-        textoPuntuacion = findViewById(R.id.textoPuntuacion)
-        puntuacion = findViewById(R.id.puntuacion)
-        textoGanador = findViewById(R.id.textoGanador)
-        textoPuntosJ1 = findViewById(R.id.textoPuntosJ1)
-        textoPuntosJ2 = findViewById(R.id.textoPuntosJ2)
-        textoPuntosJ3 = findViewById(R.id.textoPuntosJ3)
-        textoPuntosJ4 = findViewById(R.id.textoPuntosJ4)
-        botonPlantarse = findViewById(R.id.botonPlantarse)
+        // Usar el binding para configurar el contenido de la vista
+        setContentView(binding.root)
+        val iniciarBoton: Button = binding.IniciarBoton
+        val spinner: Spinner = binding.spinner
+        val numeros = arrayOf(2, 3, 4)
+
+        // Adaptador para el Spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numeros)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Asigna el adaptador al Spinner
+        spinner.adapter = adapter
+
         val jugadores = ArrayList<Jugador>()
-        var numJugadores: Int = 0
+        var numJugadores: Int
 
-        boton2Jug.setOnClickListener{
+        iniciarBoton.setOnClickListener{
             menu()
-            numJugadores = 2
-
-            for (i in 1..numJugadores){
-                val jugador = Jugador()
-                jugador.numeroJugador = i
-                jugadores.add(jugador)
-            }
-            empezarPartida(jugadores, numJugadores)
-        }
-
-        boton3Jug.setOnClickListener{
-            menu()
-            numJugadores = 3
-
-            for (i in 1..numJugadores){
-                val jugador = Jugador()
-                jugador.numeroJugador = i
-                jugadores.add(jugador)
-            }
-            empezarPartida(jugadores, numJugadores)
-        }
-
-        boton4Jug.setOnClickListener{
-            menu()
-            numJugadores = 4
+            numJugadores = binding.spinner.selectedItem.toString().toInt()
 
             for (i in 1..numJugadores){
                 val jugador = Jugador()
@@ -107,54 +61,23 @@ class MainActivity : AppCompatActivity() {
         jugadores: ArrayList<Jugador>,
         numJugadores: Int
     ) {
-        var resultDado: Int = 0
+        val dado: ImageView = binding.dado
+        val botonPlantarse: Button = binding.botonPlantarse
+        val botonDado: Button = binding.botonDado
+
         var numRondas: Int = 1
         var turno: Int = 1
+        var tirada: Int = 0
 
 
             botonDado.setOnClickListener {
-                resultDado = Random.nextInt(1, 7)
-                cara6.visibility = View.GONE
-                cara5.visibility = View.GONE
-                cara4.visibility = View.GONE
-                cara3.visibility = View.GONE
-                cara2.visibility = View.GONE
-                cara1.visibility = View.GONE
+                animarDado(turno, numJugadores, numRondas, jugadores)
 
-                if (resultDado == 1) {
-                    cara1.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda = 0
-                    turno++
-                } else if (resultDado == 2) {
-                    cara2.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda += 2
-
-                } else if (resultDado == 3) {
-                    cara3.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda += 3
-
-                } else if (resultDado == 4) {
-                    cara4.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda += 4
-
-                } else if (resultDado == 5) {
-                    cara5.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda += 5
-
-                } else {
-                    cara6.visibility = View.VISIBLE
-                    jugadores[turno - 1].puntosRonda += 6
-                }
-
-                marcadores(turno, numJugadores, numRondas, jugadores)
-                if (turno > numJugadores) {
-                    turno = 1
-                    numRondas++
-                }
             }
 
 
             botonPlantarse.setOnClickListener {
+                botonPlantarse.visibility = View.GONE
                 jugadores[turno - 1].puntos += jugadores[turno - 1].puntosRonda
                 turno++
                 marcadores(turno, numJugadores, numRondas, jugadores)
@@ -168,12 +91,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun marcadores(
         turno: Int,
         numJugadores: Int,
         numRondas: Int,
         jugadores: ArrayList<Jugador>
     ) {
+        val numRonda: TextView = binding.numRonda
+        val turnoJugador: TextView = binding.turnoJugador
+        val textoPuntuacion: TextView = binding.textoPuntuacion
+        val puntuacion: TextView = binding.puntuacion
+        val textoGanador: TextView = binding.textoGanador
+        val textoPuntosJ1: TextView = binding.textoPuntosJ1
+        val textoPuntosJ2: TextView = binding.textoPuntosJ2
+        val textoPuntosJ3: TextView = binding.textoPuntosJ3
+        val textoPuntosJ4: TextView = binding.textoPuntosJ4
+        val botonPlantarse: Button = binding.botonPlantarse
+        val botonDado: Button = binding.botonDado
+        val dado: ImageView = binding.dado
+
         var turno1 = turno
         var numRondas1 = numRondas
         if (turno1 > numJugadores) {
@@ -186,13 +123,8 @@ class MainActivity : AppCompatActivity() {
         turnoJugador.setText("Turno del jugador " + turno1)
 
         if (numRondas1 > 5) {
-
-            cara6.visibility = View.GONE
-            cara5.visibility = View.GONE
-            cara4.visibility = View.GONE
-            cara3.visibility = View.GONE
-            cara2.visibility = View.GONE
-            cara1.visibility = View.GONE
+            var ganador: Jugador
+            dado.visibility = View.GONE
             botonDado.visibility = View.GONE
             puntuacion.visibility = View.GONE
             textoPuntuacion.visibility = View.GONE
@@ -205,33 +137,149 @@ class MainActivity : AppCompatActivity() {
 
             textoPuntosJ1.visibility = View.VISIBLE
             textoPuntosJ2.visibility = View.VISIBLE
+
+
             if (numJugadores == 3){
                 textoPuntosJ3.setText("Jugador 3: " + jugadores[2].puntos + " puntos")
                 textoPuntosJ3.visibility = View.VISIBLE
             }else if (numJugadores == 4){
                 textoPuntosJ3.setText("Jugador 3: " + jugadores[2].puntos + " puntos")
                 textoPuntosJ4.setText("Jugador 4: " + jugadores[3].puntos + " puntos")
-
                 textoPuntosJ3.visibility = View.VISIBLE
                 textoPuntosJ4.visibility = View.VISIBLE
             }
 
+            ganador = jugadores.maxBy { it.puntos }
 
+            textoGanador.text = "¡El ganador es el jugador ${ganador.numeroJugador}!"
             botonPlantarse.visibility =View.GONE
         }
     }
 
     fun menu() {
+        val textoCuantos: TextView = binding.textoCuantos
+        val iniciarBoton: Button = binding.IniciarBoton
+        val numRonda: TextView = binding.numRonda
+        val turnoJugador: TextView = binding.turnoJugador
+        val dado: ImageView = binding.dado
+        val botonDado: Button = binding.botonDado
+        val textoPuntuacion: TextView = binding.textoPuntuacion
+        val puntuacion: TextView = binding.puntuacion
+        val spinner: Spinner = binding.spinner
+
         textoCuantos.visibility = View.GONE
-        boton3Jug.visibility = View.GONE
-        boton4Jug.visibility = View.GONE
-        boton2Jug.visibility = View.GONE
+        iniciarBoton.visibility = View.GONE
+        spinner.visibility = View.GONE
         numRonda.visibility = View.VISIBLE
         turnoJugador.visibility = View.VISIBLE
-        cara6.visibility = View.VISIBLE
+        dado.visibility = View.VISIBLE
         botonDado.visibility = View.VISIBLE
         puntuacion.visibility = View.VISIBLE
         textoPuntuacion.visibility = View.VISIBLE
-        botonPlantarse.visibility = View.VISIBLE
+    }
+
+    fun animarDado(
+        turno: Int,
+        numJugadores: Int,
+        numRondas: Int,
+        jugadores: ArrayList<Jugador>) {
+
+        var turno1 = turno
+        var numRondas1 = numRondas
+
+        val textoPuntuacion: TextView = binding.textoPuntuacion
+        val puntuacion: TextView = binding.puntuacion
+        val botonPlantarse: Button = binding.botonPlantarse
+        val botonDado: Button = binding.botonDado
+        var currentIndex: Int = 0
+        val dado: ImageView = binding.dado
+        val imagenesDado = listOf(
+            R.drawable.cara1, R.drawable.cara2, R.drawable.cara3,
+            R.drawable.cara4, R.drawable.cara5, R.drawable.cara6
+        )
+        val handler = Handler(Looper.getMainLooper())
+        val tiempoTotal = 2000L // 5 segundos en total
+        val tiempoRapido = 500L // Los primeros 3 segundos rápidos
+
+        // Frecuencia de cambio durante la fase rápida (cada 100 ms)
+        val delayRapido = 100L
+        // Frecuencia de cambio durante la fase lenta (cada 500 ms)
+        val delayLento = 500L
+
+        // Cambiar rápidamente durante los primeros 3 segundos
+        var tiempoTranscurrido = 0L
+
+        puntuacion.visibility = View.GONE
+        textoPuntuacion.visibility = View.GONE
+        botonDado.visibility = View.GONE
+        botonPlantarse.visibility = View.GONE
+
+
+        val runnable = object : Runnable {
+            override fun run() {
+
+                // Cambiar la imagen del dado
+                dado.setImageResource(imagenesDado[currentIndex])
+                currentIndex = (currentIndex + 1) % imagenesDado.size
+
+                // Determinar si debe cambiar rápido o lento
+                if (tiempoTranscurrido < tiempoRapido) {
+                    tiempoTranscurrido += delayRapido
+                    handler.postDelayed(this, delayRapido)
+                } else if (tiempoTranscurrido < tiempoTotal) {
+                    tiempoTranscurrido += delayLento
+                    handler.postDelayed(this, delayLento)
+                } else{
+                    puntuacion.visibility = View.VISIBLE
+                    textoPuntuacion.visibility = View.VISIBLE
+                    botonDado.visibility = View.VISIBLE
+                    var tirada: Int = 0
+                    tirada++
+                    var resultDado: Int = Random.nextInt(1, 7)
+
+
+                    if (resultDado == 1) {
+                        dado.setImageResource(R.drawable.cara1)
+                        jugadores[turno - 1].puntosRonda = 0
+                        turno1++
+                        tirada = 0
+                    } else if (resultDado == 2) {
+                        dado.setImageResource(R.drawable.cara2)
+                        jugadores[turno - 1].puntosRonda += 2
+
+                    } else if (resultDado == 3) {
+                        dado.setImageResource(R.drawable.cara3)
+                        jugadores[turno - 1].puntosRonda += 3
+
+                    } else if (resultDado == 4) {
+                        dado.setImageResource(R.drawable.cara4)
+                        jugadores[turno - 1].puntosRonda += 4
+
+                    } else if (resultDado == 5) {
+                        dado.setImageResource(R.drawable.cara5)
+                        jugadores[turno - 1].puntosRonda += 5
+
+                    } else {
+                        dado.setImageResource(R.drawable.cara6)
+                        jugadores[turno - 1].puntosRonda += 6
+                    }
+
+                    botonPlantarse.visibility = View.VISIBLE
+
+                    marcadores(turno1, numJugadores, numRondas1, jugadores)
+                    if (turno > numJugadores) {
+                        turno1 = 1
+                        numRondas1++
+                        tirada = 0
+                    }
+                    if (tirada == 0){
+                        botonPlantarse.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        // Iniciar la animación
+        handler.post(runnable)
     }
 }
