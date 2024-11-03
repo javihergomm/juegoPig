@@ -17,27 +17,24 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
+    var turno: Int = 1
+    var numRondas: Int = 1
 
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        // Inicializar el binding
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        // Usar el binding para configurar el contenido de la vista
         setContentView(binding.root)
         val iniciarBoton: Button = binding.IniciarBoton
         val spinner: Spinner = binding.spinner
         val numeros = arrayOf(2, 3, 4)
 
-        // Adaptador para el Spinner
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numeros)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Asigna el adaptador al Spinner
         spinner.adapter = adapter
 
         val jugadores = ArrayList<Jugador>()
@@ -65,13 +62,10 @@ class MainActivity : AppCompatActivity() {
         val botonPlantarse: Button = binding.botonPlantarse
         val botonDado: Button = binding.botonDado
 
-        var numRondas: Int = 1
-        var turno: Int = 1
-        var tirada: Int = 0
 
 
-            botonDado.setOnClickListener {
-                animarDado(turno, numJugadores, numRondas, jugadores)
+        botonDado.setOnClickListener {
+                animarDado(numJugadores, jugadores)
 
             }
 
@@ -80,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 botonPlantarse.visibility = View.GONE
                 jugadores[turno - 1].puntos += jugadores[turno - 1].puntosRonda
                 turno++
-                marcadores(turno, numJugadores, numRondas, jugadores)
+                marcadores(numJugadores, jugadores)
                 if (turno > numJugadores) {
                     turno = 1
                     numRondas++
@@ -93,9 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun marcadores(
-        turno: Int,
         numJugadores: Int,
-        numRondas: Int,
         jugadores: ArrayList<Jugador>
     ) {
         val numRonda: TextView = binding.numRonda
@@ -110,20 +102,16 @@ class MainActivity : AppCompatActivity() {
         val botonPlantarse: Button = binding.botonPlantarse
         val botonDado: Button = binding.botonDado
         val dado: ImageView = binding.dado
-
-        var turno1 = turno
-        var numRondas1 = numRondas
-        if (turno1 > numJugadores) {
-            turno1 = 1
-            numRondas1++
+        if (turno > numJugadores) {
+            turno = 1
+            numRondas++
         }
 
-        puntuacion.setText(jugadores[turno1 - 1].puntosRonda.toString())
-        numRonda.setText("Ronda " + numRondas1 + ":")
-        turnoJugador.setText("Turno del jugador " + turno1)
+        puntuacion.setText(jugadores[turno - 1].puntosRonda.toString())
+        numRonda.setText("Ronda " + numRondas + ":")
+        turnoJugador.setText("Turno del jugador " + turno)
 
-        if (numRondas1 > 5) {
-            var ganador: Jugador
+        if (numRondas > 5) {
             dado.visibility = View.GONE
             botonDado.visibility = View.GONE
             puntuacion.visibility = View.GONE
@@ -149,9 +137,15 @@ class MainActivity : AppCompatActivity() {
                 textoPuntosJ4.visibility = View.VISIBLE
             }
 
-            ganador = jugadores.maxBy { it.puntos }
+            val jugadoresMaxPuntos = jugadorConMasPuntos(jugadores)
 
-            textoGanador.text = "¡El ganador es el jugador ${ganador.numeroJugador}!"
+            if(jugadoresMaxPuntos.size == 1){
+                textoGanador.text = "¡El ganador es el jugador  ${jugadoresMaxPuntos[0].nombreJugador}!"
+
+            } else {
+                textoGanador.text = "¡Nadie gana, ha habido un empate!"
+            }
+
             botonPlantarse.visibility =View.GONE
         }
     }
@@ -179,13 +173,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun animarDado(
-        turno: Int,
         numJugadores: Int,
-        numRondas: Int,
         jugadores: ArrayList<Jugador>) {
-
-        var turno1 = turno
-        var numRondas1 = numRondas
 
         val textoPuntuacion: TextView = binding.textoPuntuacion
         val puntuacion: TextView = binding.puntuacion
@@ -198,15 +187,14 @@ class MainActivity : AppCompatActivity() {
             R.drawable.cara4, R.drawable.cara5, R.drawable.cara6
         )
         val handler = Handler(Looper.getMainLooper())
-        val tiempoTotal = 2000L // 5 segundos en total
-        val tiempoRapido = 500L // Los primeros 3 segundos rápidos
+        val tiempoTotal = 2000L
+        val tiempoRapido = 1000L
 
-        // Frecuencia de cambio durante la fase rápida (cada 100 ms)
         val delayRapido = 100L
-        // Frecuencia de cambio durante la fase lenta (cada 500 ms)
-        val delayLento = 500L
 
-        // Cambiar rápidamente durante los primeros 3 segundos
+        val delayLento = 400L
+
+
         var tiempoTranscurrido = 0L
 
         puntuacion.visibility = View.GONE
@@ -218,11 +206,9 @@ class MainActivity : AppCompatActivity() {
         val runnable = object : Runnable {
             override fun run() {
 
-                // Cambiar la imagen del dado
                 dado.setImageResource(imagenesDado[currentIndex])
                 currentIndex = (currentIndex + 1) % imagenesDado.size
 
-                // Determinar si debe cambiar rápido o lento
                 if (tiempoTranscurrido < tiempoRapido) {
                     tiempoTranscurrido += delayRapido
                     handler.postDelayed(this, delayRapido)
@@ -241,7 +227,7 @@ class MainActivity : AppCompatActivity() {
                     if (resultDado == 1) {
                         dado.setImageResource(R.drawable.cara1)
                         jugadores[turno - 1].puntosRonda = 0
-                        turno1++
+                        turno++
                         tirada = 0
                     } else if (resultDado == 2) {
                         dado.setImageResource(R.drawable.cara2)
@@ -266,10 +252,10 @@ class MainActivity : AppCompatActivity() {
 
                     botonPlantarse.visibility = View.VISIBLE
 
-                    marcadores(turno1, numJugadores, numRondas1, jugadores)
+                    marcadores(numJugadores, jugadores)
                     if (turno > numJugadores) {
-                        turno1 = 1
-                        numRondas1++
+                        turno = 1
+                        numRondas++
                         tirada = 0
                     }
                     if (tirada == 0){
@@ -279,7 +265,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Iniciar la animación
         handler.post(runnable)
+    }
+    fun jugadorConMasPuntos(jugadores: ArrayList<Jugador>): List<Jugador> {
+        val maxPuntos = jugadores.maxOf { it.puntos }
+
+        val jugadoresConMasPuntos = jugadores.filter { it.puntos == maxPuntos }
+
+        return jugadoresConMasPuntos
     }
 }
