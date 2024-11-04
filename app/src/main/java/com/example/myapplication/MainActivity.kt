@@ -57,9 +57,11 @@ class MainActivity : AppCompatActivity() {
                     jugador.numeroJugador = i
                     jugadores.add(jugador)
                 }
-                val intent = Intent(this, EleccionNombre::class.java)
+                val intent = Intent(parent.context, EleccionNombre::class.java)
                 startActivity(intent)
+
             }
+
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
