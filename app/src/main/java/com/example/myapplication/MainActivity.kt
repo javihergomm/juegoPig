@@ -1,10 +1,13 @@
 package com.example.myapplication
 
+import NombresAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
@@ -28,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        val iniciarBoton: Button = binding.IniciarBoton
         val spinner: Spinner = binding.spinner
         val numeros = arrayOf(2, 3, 4)
 
@@ -40,17 +42,34 @@ class MainActivity : AppCompatActivity() {
         val jugadores = ArrayList<Jugador>()
         var numJugadores: Int
 
-        iniciarBoton.setOnClickListener{
-            menu()
-            numJugadores = binding.spinner.selectedItem.toString().toInt()
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val opcionSeleccionada = parent.getItemAtPosition(position).toString()
 
-            for (i in 1..numJugadores){
-                val jugador = Jugador()
-                jugador.numeroJugador = i
-                jugadores.add(jugador)
+                numJugadores = binding.spinner.selectedItem.toString().toInt()
+                for (i in 1..numJugadores){
+                    val jugador = Jugador()
+                    jugador.numeroJugador = i
+                    jugadores.add(jugador)
+                }
+                val intent = Intent(this, EleccionNombre::class.java)
+                startActivity(intent)
             }
-            empezarPartida(jugadores, numJugadores)
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+
         }
+
+
+
+
+
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -152,7 +171,6 @@ class MainActivity : AppCompatActivity() {
 
     fun menu() {
         val textoCuantos: TextView = binding.textoCuantos
-        val iniciarBoton: Button = binding.IniciarBoton
         val numRonda: TextView = binding.numRonda
         val turnoJugador: TextView = binding.turnoJugador
         val dado: ImageView = binding.dado
@@ -162,7 +180,6 @@ class MainActivity : AppCompatActivity() {
         val spinner: Spinner = binding.spinner
 
         textoCuantos.visibility = View.GONE
-        iniciarBoton.visibility = View.GONE
         spinner.visibility = View.GONE
         numRonda.visibility = View.VISIBLE
         turnoJugador.visibility = View.VISIBLE
@@ -267,6 +284,7 @@ class MainActivity : AppCompatActivity() {
 
         handler.post(runnable)
     }
+
     fun jugadorConMasPuntos(jugadores: ArrayList<Jugador>): List<Jugador> {
         val maxPuntos = jugadores.maxOf { it.puntos }
 

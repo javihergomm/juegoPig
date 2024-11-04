@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class EleccionNombre : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

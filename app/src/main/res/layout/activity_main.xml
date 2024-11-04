@@ -22,19 +22,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.144" />
 
-    <Button
-        android:id="@+id/IniciarBoton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="304dp"
-        android:text="Iniciar Partida"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoCuantos"
-        app:layout_constraintVertical_bias="0.09" />
-
     <TextView
         android:id="@+id/numRonda"
         android:layout_width="wrap_content"
