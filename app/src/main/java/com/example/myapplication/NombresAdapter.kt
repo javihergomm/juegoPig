@@ -9,7 +9,7 @@ class NombresAdapter(private val nombres: List<String>) : RecyclerView.Adapter<N
 
     // ViewHolder para el RecyclerView
     class NombreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombresJug1: TextView = itemView.findViewById(R.id.NombresJug1)
+        val textoNombres: TextView = itemView.findViewById(R.id.textoNombres)
     }
 
     // Crear y retornar el ViewHolder cuando se necesite uno nuevo
@@ -21,7 +21,7 @@ class NombresAdapter(private val nombres: List<String>) : RecyclerView.Adapter<N
     // Enlazar los datos con el ViewHolder
     override fun onBindViewHolder(holder: NombreViewHolder, position: Int) {
         val name = nombres[position]
-        holder.nombresJug1.text = name
+        holder.textoNombres.text = name
     }
 
     override fun getItemCount(): Int {

@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                val opcionSeleccionada = parent.getItemAtPosition(position).toString()
 
                 numJugadores = binding.spinner.selectedItem.toString().toInt()
                 for (i in 1..numJugadores){
