@@ -1,26 +1,23 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.myapplication.databinding.ActivityEleccionNombreBinding
 import com.example.myapplication.databinding.ActivityPartidaBinding
 import kotlin.random.Random
 
 class Partida : AppCompatActivity() {
     private lateinit var binding: ActivityPartidaBinding
     var turno: Int = 1
-    var numRondas: Int = 1
+    var numRondasJugadas: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +27,15 @@ class Partida : AppCompatActivity() {
         binding = ActivityPartidaBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val numJugadores = intent.getIntExtra("NUM_JUGADORES", 0)
-        val nombres = listOf(intent.getStringExtra("NOMBRE_JUG1"),
+        val numRondas: Int = intent.getIntExtra("NUM_RONDAS", 0)
+
+
+        var nombres = listOf(intent.getStringExtra("NOMBRE_JUG1"),
             intent.getStringExtra("NOMBRE_JUG2"),
             intent.getStringExtra("NOMBRE_JUG3"),
             intent.getStringExtra("NOMBRE_JUG4"))
+
+        nombres = nombres.take(numJugadores)
 
         val jugadores = ArrayList<Jugador>()
 
@@ -58,6 +60,7 @@ class Partida : AppCompatActivity() {
             val dado: ImageView = binding.dado2
             val botonPlantarse: Button = binding.botonPlantarse2
             val botonDado: Button = binding.botonDado2
+            val numRondas: Int = intent.getIntExtra("NUM_RONDAS", 0)
 
 
 
@@ -74,7 +77,7 @@ class Partida : AppCompatActivity() {
                 marcadores(numJugadores, jugadores)
                 if (turno > numJugadores) {
                     turno = 1
-                    numRondas++
+                    numRondasJugadas++
                 }
 
             }
@@ -87,63 +90,65 @@ class Partida : AppCompatActivity() {
             numJugadores: Int,
             jugadores: ArrayList<Jugador>
         ) {
+            val numRondas: Int = intent.getIntExtra("NUM_RONDAS", 0)
             val numRonda: TextView = binding.numRonda2
             val turnoJugador: TextView = binding.turnoJugador2
             val textoPuntuacion: TextView = binding.textoPuntuacion2
             val puntuacion: TextView = binding.puntuacion2
-            val textoGanador: TextView = binding.textoGanador2
-            val textoPuntosJ1: TextView = binding.textoPuntosJ1
-            val textoPuntosJ2: TextView = binding.textoPuntosJ2
-            val textoPuntosJ3: TextView = binding.textoPuntosJ3
-            val textoPuntosJ4: TextView = binding.textoPuntosJ4
+            var textoGanador: String
+            var textoPuntosJ1: String
+            var textoPuntosJ2: String
+            var textoPuntosJ3: String=""
+            var textoPuntosJ4: String=""
             val botonPlantarse: Button = binding.botonPlantarse2
             val botonDado: Button = binding.botonDado2
             val dado: ImageView = binding.dado2
             if (turno > numJugadores) {
                 turno = 1
-                numRondas++
+                numRondasJugadas++
             }
 
             puntuacion.setText(jugadores[turno - 1].puntosRonda.toString())
-            numRonda.setText("Ronda " + numRondas + ":")
+            numRonda.setText("Ronda " + numRondasJugadas + ":")
             turnoJugador.setText("Turno de " + jugadores[turno-1].nombreJugador)
 
-            if (numRondas > 5) {
-                dado.visibility = View.GONE
-                botonDado.visibility = View.GONE
-                puntuacion.visibility = View.GONE
-                textoPuntuacion.visibility = View.GONE
-                numRonda.visibility = View.GONE
-                turnoJugador.visibility = View.GONE
-                botonDado.visibility = View.GONE
-                textoGanador.visibility = View.VISIBLE
-                textoPuntosJ1.setText(jugadores[0].nombreJugador + " : " + jugadores[0].puntos + " puntos")
-                textoPuntosJ2.setText(jugadores[1].nombreJugador + " : " + jugadores[1].puntos + " puntos")
-
-                textoPuntosJ1.visibility = View.VISIBLE
-                textoPuntosJ2.visibility = View.VISIBLE
-
+            if (numRondasJugadas > numRondas) {
+                textoPuntosJ1=(jugadores[0].nombreJugador + " : " + jugadores[0].puntos + " puntos")
+                textoPuntosJ2=(jugadores[1].nombreJugador + " : " + jugadores[1].puntos + " puntos")
 
                 if (numJugadores == 3){
-                    textoPuntosJ3.setText( jugadores[2].nombreJugador + " : " + jugadores[2].puntos + " puntos")
-                    textoPuntosJ3.visibility = View.VISIBLE
+                    textoPuntosJ3 = ( jugadores[2].nombreJugador + " : " + jugadores[2].puntos + " puntos")
+
                 }else if (numJugadores == 4){
-                    textoPuntosJ3.setText( jugadores[2].nombreJugador + " : " + jugadores[2].puntos + " puntos")
-                    textoPuntosJ4.setText(jugadores[3].nombreJugador + " : " + jugadores[3].puntos + " puntos")
-                    textoPuntosJ3.visibility = View.VISIBLE
-                    textoPuntosJ4.visibility = View.VISIBLE
+                    textoPuntosJ3 = ( jugadores[2].nombreJugador + " : " + jugadores[2].puntos + " puntos")
+                    textoPuntosJ4 = (jugadores[3].nombreJugador + " : " + jugadores[3].puntos + " puntos")
                 }
 
                 val jugadoresMaxPuntos = jugadorConMasPuntos(jugadores)
 
                 if(jugadoresMaxPuntos.size == 1){
-                    textoGanador.text = "¡El ganador es ${jugadoresMaxPuntos[0].nombreJugador}!"
+                    textoGanador = "¡El ganador es ${jugadoresMaxPuntos[0].nombreJugador}!"
 
                 } else {
-                    textoGanador.text = "¡Nadie gana, ha habido un empate!"
+                    textoGanador = "¡Nadie gana, ha habido un empate!"
                 }
 
-                botonPlantarse.visibility =View.GONE
+                var listafinal = arrayListOf(textoGanador, textoPuntosJ1, textoPuntosJ2)
+
+                if (numJugadores == 3){
+                    listafinal = arrayListOf(textoGanador, textoPuntosJ1, textoPuntosJ2, textoPuntosJ3)
+
+                }else if (numJugadores == 4){
+                    listafinal = arrayListOf(textoGanador, textoPuntosJ1, textoPuntosJ2, textoPuntosJ3, textoPuntosJ4)
+                }
+
+
+
+                val intent = Intent(this, ResultadoDado::class.java)
+                intent.putExtra("LISTA", listafinal)
+                startActivity(intent)
+
+
             }
         }
 
@@ -151,6 +156,7 @@ class Partida : AppCompatActivity() {
         fun menu(
             nombre1: String
         ) {
+            val numRondas: Int = intent.getIntExtra("NUM_RONDAS", 0)
 
             val numRonda: TextView = binding.numRonda2
             val turnoJugador: TextView = binding.turnoJugador2
@@ -187,6 +193,7 @@ class Partida : AppCompatActivity() {
             val handler = Handler(Looper.getMainLooper())
             val tiempoTotal = 2000L
             val tiempoRapido = 1000L
+            val numRondas: Int = intent.getIntExtra("NUM_RONDAS", 0)
 
             val delayRapido = 100L
 
@@ -253,7 +260,7 @@ class Partida : AppCompatActivity() {
                         marcadores(numJugadores, jugadores)
                         if (turno > numJugadores) {
                             turno = 1
-                            numRondas++
+                            numRondasJugadas++
                             tirada = 0
                         }
                         if (tirada == 0){

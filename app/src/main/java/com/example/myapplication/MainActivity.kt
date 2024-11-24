@@ -1,71 +1,53 @@
 package com.example.myapplication
 
-import NombresAdapter
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.databinding.ActivityMainBinding
-import kotlin.random.Random
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    var turno: Int = 1
-    var numRondas: Int = 1
+    private val userDao by lazy { BaseDatos.getInstance(this).userDao() }
 
-    @SuppressLint("MissingInflatedId", "SuspiciousIndentation", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
-        val spinner: Spinner = binding.spinner
-        val numeros = arrayOf("Selecciona una opción...", 2, 3, 4)
-
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numeros)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        spinner.adapter = adapter
-
-        var numJugadores: Int
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val opcionSeleccionada = parent.getItemAtPosition(position).toString()
-
-                if (opcionSeleccionada != "Selecciona una opción...") {
-                    numJugadores = binding.spinner.selectedItem.toString().toInt()
-
-                    val intent = Intent(parent.context, EleccionNombre::class.java)
-                    intent.putExtra("NUM_JUGADORES", numJugadores)
-                    startActivity(intent)
-                }
-            }
-
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-
-
+        binding.loginButton.setOnClickListener {
+            login()
         }
 
+        binding.registerButton.setOnClickListener {
+            val intent = Intent(this, Registro::class.java)
+            startActivity(intent)
+        }
 
+        binding.usernameEditText.addTextChangedListener { binding.rememberCheckBox.isChecked = false }
+        binding.passwordEditText.addTextChangedListener { binding.rememberCheckBox.isChecked = false }
+    }
+
+    private fun login() {
+        val username = binding.usernameEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch {
+            val user = userDao.getUser(username, password)
+            if (user != null) {
+                val intent = Intent(this@MainActivity, Hub::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this@MainActivity, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

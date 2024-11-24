@@ -27,14 +27,13 @@ class EleccionNombre() : AppCompatActivity() {
         binding = ActivityEleccionNombreBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val numJugadores = intent.getIntExtra("NUM_JUGADORES", 0)
-        val textoJugador1: TextView = binding.TextoJugador1
-        val textoJugador2: TextView = binding.TextoJugador2
+        val numRondas = intent.getIntExtra("NUM_RONDAS", 0)
         val textoJugador3: TextView = binding.TextoJugador3
         val textoJugador4: TextView = binding.TextoJugador4
         val botonIniciar: Button = binding.botonIniciar
         val textoError: TextView = binding.Error
 
-        var nombres = listOf("Aitor Tilla", "Ana Conda", "Armando Broncas", "Aurora Boreal",
+        val nombres = listOf("Aitor Tilla", "Ana Conda", "Armando Broncas", "Aurora Boreal",
             "Bartolo Mesa", "Carmen Mente", "Dolores Delirio", "Elsa Pato", "Enrique Cido",
             "Esteban Dido", "Elba Lazo", "Fermin Tado", "Lola Mento", "Luz Cuesta", "Margarita Flores",
             "Paco Tilla", "Pere Gil", "Pío Nono", "Salvador Tumbado", "Zoila Vaca")
@@ -81,6 +80,7 @@ class EleccionNombre() : AppCompatActivity() {
                 (numJugadores < 4 || nombreSeleccionadoJug4 != null)) {
                 val intent = Intent(this, Partida::class.java)
                 intent.putExtra("NUM_JUGADORES", numJugadores)
+                intent.putExtra("NUM_RONDAS", numRondas)
                 intent.putExtra("NOMBRE_JUG1", nombreSeleccionadoJug1)
                 intent.putExtra("NOMBRE_JUG2", nombreSeleccionadoJug2)
                 if (numJugadores >= 3) intent.putExtra("NOMBRE_JUG3", nombreSeleccionadoJug3)
