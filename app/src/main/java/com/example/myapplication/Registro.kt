@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,15 +22,19 @@ class Registro : AppCompatActivity() {
         binding.registerButton.setOnClickListener {
             validateAndRegister()
         }
+        binding.botonOculto.isClickable = true
+        binding.botonOculto.setOnClickListener {
+            val intent = Intent(this, BorrarUsuarios::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun validateAndRegister() {
         val username = binding.usernameEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
-        val birthDate = getDateFromDatePicker()
         val acceptedTerms = binding.termsCheckBox.isChecked
         val birthDateInMillis = getDateFromDatePicker()
-        // Validaciones
+
         val errors = mutableListOf<String>()
 
         if (username.length !in 4..10) {
@@ -53,7 +58,6 @@ class Registro : AppCompatActivity() {
             return
         }
 
-        // Validar si el Username ya existe en la base de datos
         lifecycleScope.launch {
             val userExists = userDao.checkUsernameExists(username) != null
             if (userExists) {

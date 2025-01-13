@@ -18,6 +18,9 @@ class Partida : AppCompatActivity() {
     private lateinit var binding: ActivityPartidaBinding
     var turno: Int = 1
     var numRondasJugadas: Int = 1
+    var comodin: Boolean = false
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,7 @@ class Partida : AppCompatActivity() {
             jugadores: ArrayList<Jugador>,
             numJugadores: Int
         ) {
+            val textoComodin: TextView = binding.comodin
             val dado: ImageView = binding.dado2
             val botonPlantarse: Button = binding.botonPlantarse2
             val botonDado: Button = binding.botonDado2
@@ -71,6 +75,9 @@ class Partida : AppCompatActivity() {
 
 
             botonPlantarse.setOnClickListener {
+                textoComodin.visibility = View.GONE
+                comodin = false
+
                 botonPlantarse.visibility = View.GONE
                 jugadores[turno - 1].puntos += jugadores[turno - 1].puntosRonda
                 turno++
@@ -148,7 +155,6 @@ class Partida : AppCompatActivity() {
                 intent.putExtra("LISTA", listafinal)
                 startActivity(intent)
 
-
             }
         }
 
@@ -181,6 +187,7 @@ class Partida : AppCompatActivity() {
             jugadores: ArrayList<Jugador>) {
 
             val textoPuntuacion: TextView = binding.textoPuntuacion2
+            val textoComodin: TextView = binding.comodin
             val puntuacion: TextView = binding.puntuacion2
             val botonPlantarse: Button = binding.botonPlantarse2
             val botonDado: Button = binding.botonDado2
@@ -210,7 +217,6 @@ class Partida : AppCompatActivity() {
 
             val runnable = object : Runnable {
                 override fun run() {
-
                     dado.setImageResource(imagenesDado[currentIndex])
                     currentIndex = (currentIndex + 1) % imagenesDado.size
 
@@ -231,9 +237,15 @@ class Partida : AppCompatActivity() {
 
                         if (resultDado == 1) {
                             dado.setImageResource(R.drawable.cara1)
-                            jugadores[turno - 1].puntosRonda = 0
-                            turno++
-                            tirada = 0
+
+                            if (!comodin){
+                                jugadores[turno - 1].puntosRonda = 0
+                                turno++
+                                tirada = 0
+                            }else{
+                                comodin=false
+                            }
+
                         } else if (resultDado == 2) {
                             dado.setImageResource(R.drawable.cara2)
                             jugadores[turno - 1].puntosRonda += 2
@@ -253,6 +265,13 @@ class Partida : AppCompatActivity() {
                         } else {
                             dado.setImageResource(R.drawable.cara6)
                             jugadores[turno - 1].puntosRonda += 6
+                            comodin=true;
+                        }
+
+                        if (comodin){
+                            textoComodin.visibility = View.VISIBLE
+                        }else{
+                            textoComodin.visibility = View.GONE
                         }
 
                         botonPlantarse.visibility = View.VISIBLE

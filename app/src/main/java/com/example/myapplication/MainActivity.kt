@@ -20,12 +20,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Cargar datos almacenados si el checkbox estaba marcado
         loadSavedLogin()
 
         binding.rememberCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
-                // Si se desmarca, limpiamos los datos de SharedPreferences
                 clearSavedLogin()
             }
         }
@@ -41,17 +39,18 @@ class MainActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val username = binding.usernameEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
+            val irrelevante = binding.Irrelevante.text.toString()
 
             lifecycleScope.launch {
                 val user = userDao.getUser(username, password)
-                if (user != null) {
-                    // Guardar datos si el checkbox está marcado
+                if (user != null && irrelevante != "") {
                     if (binding.rememberCheckBox.isChecked) {
-                        saveLogin(username, password)
+                        saveLogin(username, password, irrelevante)
                     }
-                    // Ir a la pantalla HUB
                     goToHub()
-                } else {
+                } else if(username == "" || password == "" || irrelevante == ""){
+                    Toast.makeText(this@MainActivity, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
+                } else{
                     Toast.makeText(this@MainActivity, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -63,11 +62,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveLogin(username: String, password: String) {
+    private fun saveLogin(username: String, password: String, irrelevante: String) {
         with(sharedPreferences.edit()) {
             putBoolean("remember", true)
             putString("username", username)
             putString("password", password)
+            putString("irrelevante", irrelevante)
             apply()
         }
     }
@@ -77,8 +77,10 @@ class MainActivity : AppCompatActivity() {
         if (remember) {
             val username = sharedPreferences.getString("username", "")
             val password = sharedPreferences.getString("password", "")
+            val irrelevante = sharedPreferences.getString("irrelevante", "")
             binding.usernameEditText.setText(username)
             binding.passwordEditText.setText(password)
+            binding.Irrelevante.setText(irrelevante)
             binding.rememberCheckBox.isChecked = true
         }
     }
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             remove("remember")
             remove("username")
             remove("password")
+            remove("irrelevante")
             apply()
         }
     }
