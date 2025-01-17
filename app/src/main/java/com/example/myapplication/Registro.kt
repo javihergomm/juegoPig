@@ -2,12 +2,16 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.databinding.ActivityRegistroBinding
 import kotlinx.coroutines.launch
+import retrofit2.Call
 import java.util.Calendar
+import retrofit2.Callback
+import retrofit2.Response
 
 class Registro : AppCompatActivity() {
 
@@ -16,8 +20,37 @@ class Registro : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val api = RetrofitClient.instance
+
+        binding.hombre.setOnClickListener {
+
+            binding.textView3.visibility = View.GONE
+            binding.hombre.visibility = View.GONE
+            binding.mujer.visibility = View.GONE
+            binding.imageView2.visibility = View.VISIBLE
+            binding.imageView3.visibility = View.VISIBLE
+            binding.imageView4.visibility = View.VISIBLE
+            binding.cambiarImagenes.visibility = View.VISIBLE
+
+            api.getRandomPicture().enqueue(object : Callback<PictureResponse> {
+                override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {}(
+                    call: Call<PictureResponse>,
+                    response: Response<PictureResponse>
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onFailure(call: Call<PictureResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            } )
+
+
+        }
 
         binding.registerButton.setOnClickListener {
             validateAndRegister()
