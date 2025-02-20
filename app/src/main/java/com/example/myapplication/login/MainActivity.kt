@@ -1,12 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.login
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.BaseDatos
+import com.example.myapplication.Hub
 import com.example.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToHub() {
         val intent = Intent(this@MainActivity, Hub::class.java)
+        intent.putExtra("USUARIO", binding.usernameEditText.text.toString())
         startActivity(intent)
     }
 }

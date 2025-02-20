@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etNIA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="NIA" />
+
+    <EditText
+        android:id="@+id/etNIF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="NIF" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre" />
+
+    <EditText
+        android:id="@+id/etApellido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apellido" />
+
+    <EditText
+        android:id="@+id/etMedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Media Expediente" />
+
+    <Button
+        android:id="@+id/btnInsertar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Insertar Alumno" />
+</LinearLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registro">
+    tools:context=".login.Registro">
 
     <Button
         android:id="@+id/registerButton"
@@ -15,10 +15,11 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.959" />
+        app:layout_constraintVertical_bias="0.959"
+        tools:visibility="visible" />
 
     <CheckBox
         android:id="@+id/termsCheckBox"
@@ -30,7 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.888"
+        tools:visibility="visible" />
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -42,9 +44,11 @@
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintVertical_bias="0.553"
+        tools:visibility="visible" />
 
     <TextView
+        android:id="@+id/TextViewFechaNac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fecha de nacimiento"
@@ -54,7 +58,8 @@
         app:layout_constraintHorizontal_bias="0.128"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.205"
+        tools:visibility="visible" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -68,7 +73,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.116"
+        tools:visibility="visible" />
 
     <EditText
         android:id="@+id/usernameEditText"
@@ -81,7 +87,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintVertical_bias="0.051"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/botonOculto"
@@ -95,46 +102,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="122dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="267dp"
-        tools:layout_editor_absoluteY="122dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="263dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:visibility="visible" />
+        app:layout_constraintVertical_bias="0.002" />
 
     <Button
         android:id="@+id/hombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hombre"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="343dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.237"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
         tools:visibility="gone" />
 
     <Button
@@ -142,8 +123,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mujer"
-        tools:layout_editor_absoluteX="273dp"
-        tools:layout_editor_absoluteY="345dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.767"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
         tools:visibility="gone" />
 
     <TextView
@@ -152,8 +138,13 @@
         android:layout_height="wrap_content"
         android:text="¿Cual es tu género?"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="74dp"
-        tools:layout_editor_absoluteY="113dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.176"
         tools:visibility="gone" />
 
     <Button
@@ -161,7 +152,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cambiar Imagenes"
-        tools:layout_editor_absoluteX="121dp"
-        tools:layout_editor_absoluteY="527dp" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.793"
+        tools:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        android:scaleType="fitCenter"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.119"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.208"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.208"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SELECCIONA UNA IMAGEN"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.058" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

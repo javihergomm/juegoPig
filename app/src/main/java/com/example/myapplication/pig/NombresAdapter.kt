@@ -1,3 +1,5 @@
+package com.example.myapplication.pig
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +42,7 @@ class NombresAdapter(
     }
 
     override fun onBindViewHolder(holder: NombreViewHolder, position: Int) {
-        holder.bind(nombres[position]) // Usa el método `bind` para enlazar el nombre y manejar la selección
+        holder.bind(nombres[position])
     }
 
     override fun getItemCount(): Int = nombres.size

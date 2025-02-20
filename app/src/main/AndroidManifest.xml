@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,16 +25,61 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".BorrarUsuarios"
+            android:name=".camara.DondeListar"
             android:exported="false" />
         <activity
-            android:name=".Registro"
+            android:name=".camara.Donde"
+            android:exported="false" />
+        <activity
+            android:name=".audioPlayer.audioPlayer"
+            android:exported="false" />
+        <activity
+            android:name=".videoPlayer.ReproducirVideo"
+            android:exported="false" />
+        <activity
+            android:name=".videoPlayer.ListaVideos"
+            android:exported="false" />
+        <activity
+            android:name=".camara.ListaFotos"
+            android:exported="false" />
+        <activity
+            android:name=".camara.Camara"
+            android:exported="false" />
+        <activity
+            android:name=".camara.MenuCamara"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.FormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.AlumnoFiltrado"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.TodosAlumnos"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.ConAutenticacion"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.SinAutenticacion"
+            android:exported="false" />
+        <activity
+            android:name=".firebase.ConOSin"
+            android:exported="false" />
+        <activity
+            android:name=".chuk.MemesChuckNorris"
+            android:exported="false" />
+        <activity
+            android:name=".login.BorrarUsuarios"
+            android:exported="false" />
+        <activity
+            android:name=".login.Registro"
             android:exported="false" />
         <activity
             android:name=".Hub"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,17 +88,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ResultadoDado"
+            android:name=".pig.ResultadoDado"
             android:exported="false" />
         <activity
-            android:name=".Partida"
+            android:name=".pig.Partida"
             android:exported="false" />
         <activity
-            android:name=".EleccionNombre"
+            android:name=".pig.EleccionNombre"
             android:exported="false" />
         <activity
-            android:name=".InicioPig"
-            android:exported="true"></activity>
+            android:name=".pig.InicioPig"
+            android:exported="true" />
     </application>
 
 </manifest>

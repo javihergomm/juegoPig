@@ -1,6 +1,5 @@
-package com.example.myapplication
+package com.example.myapplication.login
 
-import NombresAdapter
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -8,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.BaseDatos
+import com.example.myapplication.pig.NombresAdapter
 import com.example.myapplication.databinding.ActivityBorrarUsuariosBinding
 import kotlinx.coroutines.launch
 

@@ -21,4 +21,7 @@ interface UserDao {
     @Query("DELETE FROM users WHERE username = :username")
     suspend fun deleteUser(username: String)
 
+    @Query("SELECT picture FROM users WHERE username = :username")
+    suspend fun selectpicture(username: String): String
+
 }

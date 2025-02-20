@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.pig
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Jugador
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityPartidaBinding
 import kotlin.random.Random
 

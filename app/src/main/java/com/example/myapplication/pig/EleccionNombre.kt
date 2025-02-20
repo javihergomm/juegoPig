@@ -1,6 +1,5 @@
-package com.example.myapplication
+package com.example.myapplication.pig
 
-import NombresAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityEleccionNombreBinding
 
 class EleccionNombre() : AppCompatActivity() {
