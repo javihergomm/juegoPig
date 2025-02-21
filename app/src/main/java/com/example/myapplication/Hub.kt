@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.audioPlayer.audioPlayer
+import com.example.myapplication.bolita.JuegoBolita
 import com.example.myapplication.camara.MenuCamara
 import com.example.myapplication.chuk.MemesChuckNorris
 import com.example.myapplication.databinding.ActivityHubBinding
@@ -102,6 +103,11 @@ class Hub : AppCompatActivity() {
         }
         binding.imageButton9.setOnClickListener{
             val intent = Intent(this, audioPlayer::class.java)
+            intent.putExtra("USUARIO", username)
+            startActivity(intent)
+        }
+        binding.imageButton10.setOnClickListener{
+            val intent = Intent(this, JuegoBolita::class.java)
             intent.putExtra("USUARIO", username)
             startActivity(intent)
         }

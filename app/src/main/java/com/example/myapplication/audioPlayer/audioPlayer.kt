@@ -66,7 +66,6 @@ class audioPlayer : AppCompatActivity() {
                 }
             }
 
-            hola
 
 
         }
